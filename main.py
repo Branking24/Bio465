@@ -14,7 +14,7 @@ def main():
     grouped = new_merge.groupby("DepmapModelType").mean()
 
     #Get mean based on gene
-
+    mean_df = grouped.mean()
 
 
     #Create Kernel Density Plots
@@ -24,12 +24,15 @@ def main():
     standard = grouped.std()
 
 
-    #Per Cell Type, Find Relative Relationship from Kernel Density Plots
+    #Per Cell Type, Find Relative Relationship
 
 
     #Compare Training Cells to Gene-Gene Matrices
 
+
     #Repeat for cell lines
+
+
     return
 
 if __name__ == '__main__':
