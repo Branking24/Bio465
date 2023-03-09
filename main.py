@@ -21,8 +21,18 @@ def create_combined_data_frames(data_name, model_name, merge_column_name, column
 
     return data_df, model_df, new_merge, grouped, mean_df, standard_df
 
+def create_dataframes(tsv_name):
+    data_df = pd.read_csv(tsv_name, sep='\t')
+
+    mean_df = data_df.mean(axis=1)
+
+    standard_df = data_df.std(axis=1)
+
+    return data_df, mean_df, standard_df
+
 def density_plot(to_plot, index):
-    plot = sns.histplot(data=to_plot.iloc[:, index], kde=True)
+    data_stuff = to_plot.iloc[index, 2:]
+    plot = sns.histplot(data=to_plot.iloc[index, 2:], kde=True)
     plot.show()
 
 def compare_dataset(csv_name, csv_model_name, column_id, merge_column_name, standard_deviation, means, relationship_matrix):
@@ -69,7 +79,13 @@ def compare_dataset(csv_name, csv_model_name, column_id, merge_column_name, stan
 
 # model.csv : cols 1 and 9
 def main():
-    
+
+    data, mean, std = create_dataframes("GSE181153_ADAB_geneCounts.tsv")
+    to_plot = data.iloc[3, 2:]
+    to_plot_2 = to_plot[to_plot != 0]
+    plot = sns.histplot(data=to_plot_2, kde=True)
+    plt.show()
+
     '''omics_df = pd.read_csv("OmicsExpressionProteinCodingGenesTPMLogp1.csv")
     omics_df.columns.values[0] = "ModelID"
 
@@ -86,8 +102,14 @@ def main():
     standard = grouped.std()'''
 
     omics_df, model_df, new_merge, grouped, mean_df, standard = create_combined_data_frames("OmicsExpressionProteinCodingGenesTPMLogp1.csv", "Model.csv", "DepmapModelType", "ModelID")
-
-
+    to_plot = omics_df.iloc[:, 4]
+    to_plot_2 = to_plot[to_plot != 0]
+    plot = sns.histplot(data=to_plot_2, kde=True)
+    plt.show()
+    to_plot = omics_df.iloc[:, 3]
+    to_plot_2 = to_plot[to_plot != 0]
+    plot = sns.histplot(data=to_plot_2, kde=True)
+    plt.show()
     #Per Cell Type, Find Relative Relationship
     relations = {}
     final = {}
