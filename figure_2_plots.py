@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
 import seaborn as sns
 
 def create_combined_data_frames(data_name, model_name, merge_column_name, column_id):
@@ -25,9 +26,17 @@ def plot_figures(*argv):
         argv[0], argv[1], "DepmapModelType", "ModelID")
     to_plot = omics_df.iloc[:, 4]
     to_plot_2 = to_plot[to_plot != 0]
-    plot = sns.histplot(data=to_plot_2, kde=True)
+    plot = sns.histplot(data=to_plot_2, kde=True, color=mcolors.CSS4_COLORS["lightsteelblue"])
+    plt.axvline(mean_df.loc["SCYL3 (57147)"], color=mcolors.TABLEAU_COLORS["tab:red"])
+    plt.axvline(mean_df.loc["SCYL3 (57147)"] - standard.loc["SCYL3 (57147)"], color=mcolors.TABLEAU_COLORS["tab:red"], dashes=[5, 2, 0, 0])
+    plt.axvline(mean_df.loc["SCYL3 (57147)"] + standard.loc["SCYL3 (57147)"], color=mcolors.TABLEAU_COLORS["tab:red"], dashes=[5, 2, 0, 0])
     plt.show()
     to_plot = omics_df.iloc[:, 3]
     to_plot_2 = to_plot[to_plot != 0]
-    plot = sns.histplot(data=to_plot_2, kde=True)
+    plot = sns.histplot(data=to_plot_2, kde=True, color=mcolors.CSS4_COLORS["lightsteelblue"])
+    plt.axvline(mean_df.loc["DPM1 (8813)"], color=mcolors.TABLEAU_COLORS["tab:red"])
+    plt.axvline(mean_df.loc["DPM1 (8813)"] - standard.loc["DPM1 (8813)"], color=mcolors.TABLEAU_COLORS["tab:red"], dashes=[5, 2, 0, 0])
+    plt.axvline(mean_df.loc["DPM1 (8813)"] + standard.loc["DPM1 (8813)"], color=mcolors.TABLEAU_COLORS["tab:red"], dashes=[5, 2, 0, 0])
     plt.show()
+
+plot_figures("OmicsExpressionProteinCodingGenesTPMLogp1.csv", "Model.csv")
