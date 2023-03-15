@@ -45,10 +45,10 @@ def compare_dataset(csv_name, csv_model_name, column_id, merge_column_name, stan
     final = []
     cur_relation = []
     relationship = {}
-    for i in range(len(merged.axes[0])):
+    for i in range(5):
         cur_relation = []
         relationship[merged.axes[0][i]] = []
-        for j in range(1, len(merged.iloc[i].axes[0]) - 1):
+        for j in range(100):
             cur_val = merged.iloc[i].iloc[j]
             if cur_val == 0:
                 relationship[merged.axes[0][i]].append(0)
@@ -81,46 +81,18 @@ def compare_dataset(csv_name, csv_model_name, column_id, merge_column_name, stan
 # model.csv : cols 1 and 9
 def main():
 
-    data, mean, std = create_dataframes("GSE181153_ADAB_geneCounts.tsv")
-    to_plot = data.iloc[3, 2:]
-    to_plot_2 = to_plot[to_plot != 0]
-    plot = sns.histplot(data=to_plot_2, kde=True)
-    plt.show()
-
-    '''omics_df = pd.read_csv("OmicsExpressionProteinCodingGenesTPMLogp1.csv")
-    omics_df.columns.values[0] = "ModelID"
-
-    model_df = pd.read_csv("Model.csv", usecols=['ModelID', 'DepmapModelType'])
-    new_merge = pd.merge(omics_df, model_df)
-
-    new_merge = new_merge.replace(0, pd.np.nan) # data normalization --> getting rid of 0s
-    grouped = new_merge.groupby("DepmapModelType").mean()
-
-    #Get mean based on gene
-    mean_df = grouped.mean()
-
-
-    standard = grouped.std()'''
 
     omics_df, model_df, new_merge, grouped, mean_df, standard = create_combined_data_frames("OmicsExpressionProteinCodingGenesTPMLogp1.csv", "Model.csv", "DepmapModelType", "ModelID")
-    to_plot = omics_df.iloc[:, 4]
-    to_plot_2 = to_plot[to_plot != 0]
-    plot = sns.histplot(data=to_plot_2, kde=True, color=mcolors.CSS4_COLORS["lightsteelblue"])
-    plt.show()
-    to_plot = omics_df.iloc[:, 3]
-    to_plot_2 = to_plot[to_plot != 0]
-    plot = sns.histplot(data=to_plot_2, kde=True, color=mcolors.CSS4_COLORS["lightsteelblue"])
-    plt.show()
+
     #Per Cell Type, Find Relative Relationship
     relations = {}
     final = {}
-    #for i_type in range(len(grouped.axes[0])):
-    for i_type in range(20):
+    for i_type in range(len(grouped.axes[0])):
         type = grouped.axes[0][i_type]
         relations[type] = []
         final[type] = []
         #for gene in range(len(mean_df.axes[0])):
-        for gene in range(20):
+        for gene in range(100):
             if grouped.iloc[i_type, gene] > mean_df.iloc[gene] + standard.iloc[gene]:
                 relations[type].append(1)
             elif grouped.iloc[i_type, gene] < mean_df.iloc[gene] - standard.iloc[gene]:
@@ -138,7 +110,7 @@ def main():
                     final[type].append(0)
 
     #Compare Training Cells to Gene-Gene Matrices
-    predict = compare_dataset("Training.csv", "Model_training.csv", "ModelID", "DepmapModelType", standard, mean_df, final)
+    predict = compare_dataset("OmicsExpressionProteinCodingGenesTPMLogp1.csv", "Model.csv", "ModelID", "DepmapModelType", standard, mean_df, final)
     print(predict)
     #Repeat for cell lines
 
