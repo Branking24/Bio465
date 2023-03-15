@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
 import seaborn as sns
 from scipy.stats import spearmanr
 
@@ -104,20 +105,22 @@ def main():
     omics_df, model_df, new_merge, grouped, mean_df, standard = create_combined_data_frames("OmicsExpressionProteinCodingGenesTPMLogp1.csv", "Model.csv", "DepmapModelType", "ModelID")
     to_plot = omics_df.iloc[:, 4]
     to_plot_2 = to_plot[to_plot != 0]
-    plot = sns.histplot(data=to_plot_2, kde=True)
+    plot = sns.histplot(data=to_plot_2, kde=True, color=mcolors.CSS4_COLORS["lightsteelblue"])
     plt.show()
     to_plot = omics_df.iloc[:, 3]
     to_plot_2 = to_plot[to_plot != 0]
-    plot = sns.histplot(data=to_plot_2, kde=True)
+    plot = sns.histplot(data=to_plot_2, kde=True, color=mcolors.CSS4_COLORS["lightsteelblue"])
     plt.show()
     #Per Cell Type, Find Relative Relationship
     relations = {}
     final = {}
-    for i_type in range(len(grouped.axes[0])):
+    #for i_type in range(len(grouped.axes[0])):
+    for i_type in range(20):
         type = grouped.axes[0][i_type]
         relations[type] = []
         final[type] = []
-        for gene in range(len(mean_df.axes[0])):
+        #for gene in range(len(mean_df.axes[0])):
+        for gene in range(20):
             if grouped.iloc[i_type, gene] > mean_df.iloc[gene] + standard.iloc[gene]:
                 relations[type].append(1)
             elif grouped.iloc[i_type, gene] < mean_df.iloc[gene] - standard.iloc[gene]:
