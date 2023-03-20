@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import seaborn as sns
 from scipy.stats import spearmanr
+from processed_data.load_brain_data import load_brain_data
 
 
 def create_combined_data_frames(data_name, model_name, merge_column_name, column_id):
@@ -36,12 +37,13 @@ def density_plot(to_plot, index):
     plot = sns.histplot(data=to_plot.iloc[index, 2:], kde=True)
     plot.show()
 
-def compare_dataset(csv_name, csv_model_name, column_id, merge_column_name, standard_deviation, means, relationship_matrix):
-    training_df = pd.read_csv(csv_name)
-    training_df.columns.values[0] = column_id
-    training_model_df = pd.read_csv(csv_model_name, usecols=[column_id, merge_column_name])
+# def compare_dataset(csv_name, csv_model_name, column_id, merge_column_name, standard_deviation, means, relationship_matrix):
+def compare_dataset(merged, standard_deviation, means, relationship_matrix):
+    # training_df = pd.read_csv(csv_name)
+    # training_df.columns.values[0] = column_id
+    # training_model_df = pd.read_csv(csv_model_name, usecols=[column_id, merge_column_name])
 
-    merged = pd.merge(training_df, training_model_df)
+    # merged = pd.merge(training_df, training_model_df)
     final = []
     cur_relation = []
     relationship = {}
@@ -75,14 +77,15 @@ def compare_dataset(csv_name, csv_model_name, column_id, merge_column_name, stan
             if abs(cur) > max:
                 max = abs(cur)
                 max_s = k
-        final.append(max_s)
-    return
+        final.append((merged.axes[0][i], max_s))
+    return final
 
 # model.csv : cols 1 and 9
 def main():
 
 
-    omics_df, model_df, new_merge, grouped, mean_df, standard = create_combined_data_frames("OmicsExpressionProteinCodingGenesTPMLogp1.csv", "Model.csv", "DepmapModelType", "ModelID")
+    # omics_df, model_df, new_merge, grouped, mean_df, standard = create_combined_data_frames("OmicsExpressionProteinCodingGenesTPMLogp1.csv", "Model.csv", "DepmapModelType", "ModelID")
+    omics_df, new_merge, grouped, mean_df, standard = load_brain_data("data/GSE181153_ADAB_geneCounts.tsv")
 
     #Per Cell Type, Find Relative Relationship
     relations = {}
@@ -91,8 +94,8 @@ def main():
         type = grouped.axes[0][i_type]
         relations[type] = []
         final[type] = []
-        #for gene in range(len(mean_df.axes[0])):
-        for gene in range(100):
+        for gene in range(len(mean_df.axes[0])):
+        #for gene in range(100):
             if grouped.iloc[i_type, gene] > mean_df.iloc[gene] + standard.iloc[gene]:
                 relations[type].append(1)
             elif grouped.iloc[i_type, gene] < mean_df.iloc[gene] - standard.iloc[gene]:
@@ -110,7 +113,8 @@ def main():
                     final[type].append(0)
 
     #Compare Training Cells to Gene-Gene Matrices
-    predict = compare_dataset("OmicsExpressionProteinCodingGenesTPMLogp1.csv", "Model.csv", "ModelID", "DepmapModelType", standard, mean_df, final)
+    # predict = compare_dataset("OmicsExpressionProteinCodingGenesTPMLogp1.csv", "Model.csv", "ModelID", "DepmapModelType", standard, mean_df, final)
+    predict = compare_dataset(omics_df, standard, mean_df, final)
     print(predict)
     #Repeat for cell lines
 
