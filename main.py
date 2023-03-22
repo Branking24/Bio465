@@ -83,9 +83,11 @@ def compare_dataset(merged, standard_deviation, means, relationship_matrix):
 # model.csv : cols 1 and 9
 def main():
 
+    infile = "data/GSE181153_ADAB_geneCounts.tsv"
+    outfile = open("results/predictions.txt", "w")
 
     # omics_df, model_df, new_merge, grouped, mean_df, standard = create_combined_data_frames("OmicsExpressionProteinCodingGenesTPMLogp1.csv", "Model.csv", "DepmapModelType", "ModelID")
-    omics_df, new_merge, grouped, mean_df, standard = load_brain_data("data/GSE181153_ADAB_geneCounts.tsv")
+    omics_df, new_merge, grouped, mean_df, standard = load_brain_data(infile)
 
     #Per Cell Type, Find Relative Relationship
     relations = {}
@@ -94,8 +96,8 @@ def main():
         type = grouped.axes[0][i_type]
         relations[type] = []
         final[type] = []
-        for gene in range(len(mean_df.axes[0])):
-        #for gene in range(100):
+        # for gene in range(len(mean_df.axes[0])):
+        for gene in range(100):
             if grouped.iloc[i_type, gene] > mean_df.iloc[gene] + standard.iloc[gene]:
                 relations[type].append(1)
             elif grouped.iloc[i_type, gene] < mean_df.iloc[gene] - standard.iloc[gene]:
@@ -112,10 +114,16 @@ def main():
                 else:
                     final[type].append(0)
 
+    # final = create_matrices(grouped, mean_df, standard)
+
     #Compare Training Cells to Gene-Gene Matrices
     # predict = compare_dataset("OmicsExpressionProteinCodingGenesTPMLogp1.csv", "Model.csv", "ModelID", "DepmapModelType", standard, mean_df, final)
     predict = compare_dataset(omics_df, standard, mean_df, final)
-    print(predict)
+    outfile.write("Correct Predicted" + "\n")
+    for t in predict:
+        line = ' '.join(str(x) for x in t)
+        outfile.write(line + '\n')
+    outfile.close()
     #Repeat for cell lines
 
 

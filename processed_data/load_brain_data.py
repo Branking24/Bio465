@@ -2,11 +2,11 @@ import pandas as pd
 import regex as re
 import numpy as np
 
-def load_brain_data(data):
+def load_brain_data(*argv):
     # data = "../data/GSE181153_ADAB_geneCounts.tsv"
     # out_filepath = "../data/processed_brain_data.csv"
 
-    data_df = pd.read_csv(data, sep='\t')
+    data_df = pd.read_csv(argv[0], sep='\t')
 
     data_df = data_df.drop('ensembl', axis=1)
 
