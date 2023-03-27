@@ -6,7 +6,7 @@ def create_matrices(grouped, mean_df, standard):
         relations[type] = []
         final[type] = []
         # for gene in range(len(mean_df.axes[0])):
-        for gene in range(100):
+        for gene in range(500):
             if grouped.iloc[i_type, gene] > mean_df.iloc[gene] + standard.iloc[gene]:
                 relations[type].append(1)
             elif grouped.iloc[i_type, gene] < mean_df.iloc[gene] - standard.iloc[gene]:

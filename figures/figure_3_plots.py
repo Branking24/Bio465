@@ -13,7 +13,6 @@ def figure_3_plots():
     final, figure_vals = compare_dataset(data_transpose, standard_df, mean_df, matrices, sorted_indeces[:1000])
     print(figure_vals)
     for k in figure_vals.keys():
-        #y_data = figure_vals[k][1].sort()
         sns.barplot(x=figure_vals[k][0], y=figure_vals[k][1]).set(title=k)
         plt.show()
 
