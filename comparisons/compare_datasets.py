@@ -1,9 +1,10 @@
 from scipy.stats import spearmanr
 
-def compare_dataset(merged, standard_deviation, means, relationship_matrix):
+def compare_dataset(merged, standard_deviation, means, relationship_matrix, sorted_indeces):
 
     final = []
     relationship = {}
+    figure_vals = {}
     for i in range(5):
         cur_relation = []
         relationship[merged.axes[0][i]] = []
@@ -29,11 +30,19 @@ def compare_dataset(merged, standard_deviation, means, relationship_matrix):
 
         max = 0
         max_s = ""
+        cur_set = [[],[]]
         for k in relationship_matrix.keys():
-            cur, p = spearmanr(relationship_matrix[k], cur_relation)
+            cur = 0
+            #cur, p = spearmanr(relationship_matrix[k], cur_relation)
+            for m in relationship_matrix[k]:
+
+                if m in sorted_indeces and cur_relation[m] == relationship_matrix[k][m]:
+                    cur += 1
+            cur_set[0].append(k)
+            cur_set[1].append(abs(cur))
             if abs(cur) > max:
                 max = abs(cur)
                 max_s = k
+        figure_vals[merged.axes[0][i]] = cur_set
         final.append((merged.axes[0][i], max_s))
-
-    return final
+    return final, figure_vals

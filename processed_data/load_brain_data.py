@@ -29,7 +29,7 @@ def load_brain_data(*argv):
 
     mean_df = grouped.mean()
 
-    standard_df = grouped.std()
+    standard_df = new_merge.std()
 
     return data_transpose, new_merge, grouped, mean_df, standard_df
 

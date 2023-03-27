@@ -5,6 +5,7 @@ import matplotlib.colors as mcolors
 import seaborn as sns
 from scipy.stats import spearmanr
 from processed_data.load_brain_data import load_brain_data
+from processed_data.load_cancer_data import load_cancer_data
 
 
 def create_combined_data_frames(data_name, model_name, merge_column_name, column_id):
@@ -47,10 +48,10 @@ def compare_dataset(merged, standard_deviation, means, relationship_matrix):
     final = []
     cur_relation = []
     relationship = {}
-    for i in range(5):
+    for i in range(15):
         cur_relation = []
         relationship[merged.axes[0][i]] = []
-        for j in range(100):
+        for j in range(2000):
             cur_val = merged.iloc[i].iloc[j]
             if cur_val == 0:
                 relationship[merged.axes[0][i]].append(0)
@@ -83,11 +84,13 @@ def compare_dataset(merged, standard_deviation, means, relationship_matrix):
 # model.csv : cols 1 and 9
 def main():
 
-    infile = "data/GSE181153_ADAB_geneCounts.tsv"
-    outfile = open("results/predictions.txt", "w")
+    #infile = "data/GSE181153_ADAB_geneCounts.tsv"
+    #outfile = open("results/predictions.txt", "w")
 
-    # omics_df, model_df, new_merge, grouped, mean_df, standard = create_combined_data_frames("OmicsExpressionProteinCodingGenesTPMLogp1.csv", "Model.csv", "DepmapModelType", "ModelID")
-    omics_df, new_merge, grouped, mean_df, standard = load_brain_data(infile)
+    infile = "OmicsExpressionProteinCodingGenesTPMLogp1.csv"
+    outfile = open("results/cancer_predictions.txt", "w")
+    omics_df, model_df, new_merge, grouped, mean_df, standard = load_cancer_data(infile, "Model.csv")
+    #omics_df, new_merge, grouped, mean_df, standard = load_brain_data(infile)
 
     #Per Cell Type, Find Relative Relationship
     relations = {}
@@ -96,11 +99,11 @@ def main():
         type = grouped.axes[0][i_type]
         relations[type] = []
         final[type] = []
-        for gene in range(len(mean_df.axes[0])):
-        # for gene in range(100):
-            if grouped.iloc[i_type, gene] > mean_df.iloc[gene] + standard.iloc[gene]:
+        #for gene in range(len(mean_df.axes[0])):
+        for gene in range(2000):
+            if grouped.iloc[i_type, gene] > (mean_df.iloc[gene] + standard.iloc[gene]):
                 relations[type].append(1)
-            elif grouped.iloc[i_type, gene] < mean_df.iloc[gene] - standard.iloc[gene]:
+            elif grouped.iloc[i_type, gene] < (mean_df.iloc[gene] - standard.iloc[gene]):
                 relations[type].append(-1)
             else:
                 relations[type].append(0)
