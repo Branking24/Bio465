@@ -2,7 +2,7 @@ from processed_data.load_brain_data import load_brain_data
 import numpy as np
 
 def create_brain_matrices():
-    data_df, new_merge, grouped, mean_df, standard = load_brain_data("../data/GSE181153_ADAB_geneCounts.tsv")
+    data_df, new_merge, grouped, mean_df, standard, test_df = load_brain_data("../data/GSE181153_ADAB_geneCounts.tsv")
     relations = {}
     final = {}
     gene_names = []
