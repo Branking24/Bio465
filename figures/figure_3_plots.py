@@ -1,6 +1,7 @@
 from comparisons.create_brain_matrices import create_brain_matrices
 from comparisons.compare_datasets import compare_dataset
 from processed_data.load_brain_data import load_brain_data
+from processed_data.load_primary_tissue_data import load_primary_tissue_data
 import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -10,6 +11,8 @@ import matplotlib.colors as mcolors
 
 def figure_3_plots():
     infile = "../data/GSE181153_ADAB_geneCounts.tsv"
+    infile2 = "../data/primary_brain_data.csv"
+    data_transpose2, new_merge2, grouped2, mean_df2, standard_df2 = load_primary_tissue_data(infile2)
     data_transpose, new_merge, grouped, mean_df, standard_df, test_df = load_brain_data(infile)
     matrices, sorted_indeces = create_brain_matrices()
     final, figure_vals = compare_dataset(test_df, standard_df, mean_df, matrices, sorted_indeces[:100])
