@@ -1,8 +1,7 @@
 from processed_data.load_brain_data import load_brain_data
 import numpy as np
 
-def create_brain_matrices():
-    data_df, new_merge, grouped, mean_df, standard, test_df = load_brain_data("../data/GSE181153_ADAB_geneCounts.tsv")
+def create_brain_matrices(data_df, new_merge, grouped, mean_df, standard):
     relations = {}
     final = {}
     gene_names = []
@@ -13,8 +12,8 @@ def create_brain_matrices():
         type = grouped.axes[0][i_type]
         relations[type] = []
         final[type] = []
-        #for gene in range(len(mean_df.axes[0])):
-        for gene in range(500):
+        for gene in range(len(mean_df.axes[0])):
+        #for gene in range(500):
             if grouped.iloc[i_type, gene] > mean_df.iloc[gene] + standard.iloc[gene]:
                 relations[type].append(1)
             elif grouped.iloc[i_type, gene] < mean_df.iloc[gene] - standard.iloc[gene]:

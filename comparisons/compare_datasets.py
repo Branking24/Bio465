@@ -8,8 +8,8 @@ def compare_dataset(merged, standard_deviation, means, relationship_matrix, sort
     for i in range(len(merged.axes[0])):
         cur_relation = []
         relationship[merged.axes[0][i]] = []
-        #for j in range(len(means.axes[0])):
-        for j in range(500):
+        for j in range(len(means.axes[0])):
+        #for j in range(500):
             cur_val = merged.iloc[i].iloc[j]
             if cur_val == 0:
                 relationship[merged.axes[0][i]].append(0)
