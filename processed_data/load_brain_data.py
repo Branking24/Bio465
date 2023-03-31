@@ -16,6 +16,7 @@ def load_brain_data(*argv):
     data_transpose = renamed_data.transpose()
     data_transpose.columns = data_transpose.iloc[0]
     data_transpose = data_transpose.drop(['hgnc'])
+    data_transpose = data_transpose.reindex(sorted(data_transpose.columns), axis=1)
 
     #DONT INCLUDE STARTING HERE
     data_transpose = data_transpose.reset_index()
