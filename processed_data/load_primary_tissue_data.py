@@ -11,6 +11,8 @@ def load_primary_tissue_data(*argv):
     pattern = r'.[0-9]'
     renamed_data = data_df.rename(columns=lambda x: re.sub('Human', '', x))
     renamed_data = renamed_data.rename(columns=lambda x: re.sub(pattern, '', x))
+    renamed_data = renamed_data.rename(columns=lambda x: "astrocyte" if "mature astrocytes" in x else x.lstrip())
+    renamed_data = renamed_data.rename(columns=lambda x: "astrocyte" if "astrocyte" and x != "astrocyte" in x else x.lstrip())
 
     data_o = renamed_data.transpose()
     data_o.columns = data_o.iloc[0]
@@ -35,6 +37,8 @@ def load_primary_tissue_data(*argv):
     data_transpose = data_transpose.loc[:,~data_transpose.columns.duplicated()].copy()
     test_df = join_transpose[common_cols]
     test_df = test_df.loc[:, ~test_df.columns.duplicated()].copy()
+
+    data_transpose.drop('Neurons', inplace=True)
     new_merge = data_transpose.replace(0, np.nan)  # data normalization --> getting rid of 0s
 
     grouped = new_merge.groupby(level=0).mean()

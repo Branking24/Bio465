@@ -6,6 +6,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
 import matplotlib.colors as mcolors
+import numpy as np
 
 
 
@@ -13,8 +14,14 @@ def figure_4_plots():
     infile = "../data/primary_brain_data.csv"
     test_infile = "../data/GSE181153_ADAB_geneCounts.tsv"
     data_transpose, new_merge, grouped, mean_df, standard_df, test_df = load_primary_tissue_data(infile, test_infile)
+
+    new_merge_test = test_df.replace(0, np.nan)  # data normalization --> getting rid of 0s
+    grouped_test = new_merge_test.groupby(level=0).mean()
+    mean_df_test = grouped_test.mean()
+    standard_df_test = new_merge_test.std()
+
     matrices, sorted_indeces = create_brain_matrices(data_transpose, new_merge, grouped, mean_df, standard_df)
-    final, figure_vals = compare_dataset(test_df.iloc[:10, :], standard_df, mean_df, matrices, sorted_indeces)
+    final, figure_vals = compare_dataset(test_df, standard_df_test, mean_df_test, matrices, sorted_indeces)
     print(figure_vals)
     figure_df = pd.DataFrame(figure_vals)
 
@@ -33,7 +40,7 @@ def figure_4_plots():
     fig.tight_layout()
     fig.suptitle("Standard Deviation Classification", size=16)
     fig.subplots_adjust(top=0.88)
-    plt.savefig("Figure4.png")
+    plt.savefig("Figure4_test.png")
     return
 
 figure_4_plots()
