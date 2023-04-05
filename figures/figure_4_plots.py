@@ -1,12 +1,12 @@
 from comparisons.create_brain_matrices import create_brain_matrices
 from comparisons.compare_datasets import compare_dataset
-from processed_data.load_brain_data import load_brain_data
 from processed_data.load_primary_tissue_data import load_primary_tissue_data
 import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
 import matplotlib.colors as mcolors
 import numpy as np
+import json
 
 
 
@@ -41,6 +41,10 @@ def figure_4_plots():
     fig.suptitle("Standard Deviation Classification", size=16)
     fig.subplots_adjust(top=0.88)
     plt.savefig("Figure4.png")
+
+    with open('results.txt', 'w') as file:
+        file.write(json.dumps(figure_vals))
+        file.close()
     return
 
 figure_4_plots()

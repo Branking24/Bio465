@@ -1,7 +1,6 @@
 from comparisons.create_brain_matrices import create_brain_matrices
 from comparisons.compare_datasets import compare_dataset
 from processed_data.load_brain_data import load_brain_data
-from processed_data.load_primary_tissue_data import load_primary_tissue_data
 import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd

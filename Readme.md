@@ -27,3 +27,4 @@ List of necessary libraries:
 * seaborn
 * matplotlib.pyplot
 * matplotlib.colors
+* json
