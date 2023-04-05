@@ -22,12 +22,12 @@ def figure_4_plots():
 
     matrices, sorted_indeces = create_brain_matrices(data_transpose, new_merge, grouped, mean_df, standard_df)
     final, figure_vals = compare_dataset(test_df, standard_df_test, mean_df_test, matrices, sorted_indeces)
-    print(figure_vals)
+
     figure_df = pd.DataFrame(figure_vals)
 
-    fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(15, 7), sharex=False, sharey=True)
+    fig, axes = plt.subplots(nrows=3, ncols=2, figsize=(15, 7), sharex=False, sharey=True)
     axes = axes.ravel()  # array to 1D
-    cols = figure_vals.keys()
+    cols = ['iPSC', 'iMGL', 'HMC3', 'U87a', 'THP1', 'iHPC']
     for col, ax in zip(cols, axes):
         data = figure_df[col]  # select the data
         max_val = max(figure_vals[col][1])
@@ -40,7 +40,7 @@ def figure_4_plots():
     fig.tight_layout()
     fig.suptitle("Standard Deviation Classification", size=16)
     fig.subplots_adjust(top=0.88)
-    plt.savefig("Figure4_test.png")
+    plt.savefig("Figure4.png")
     return
 
 figure_4_plots()

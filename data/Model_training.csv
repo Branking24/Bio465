@@ -1,5 +1,0 @@
-ModelID,PatientID,CellLineName,StrippedCellLineName,Age,SourceType,SangerModelID,RRID,DepmapModelType,GrowthPattern
-ACH-000007,PT-NOXwpH,LS513,LS513,63,Commercial,SIDM00677,CVCL_1386,COAD,Adherent
-ACH-000013,PT-gj46wT,ONCO-DG-1,ONCODG1,60,Commercial,SIDM00093,CVCL_1882,HGSOC,Unknown
-ACH-000034,PT-5qa3uk,,PLB985,35,Academic lab,SIDM00811,CVCL_2162,AML,Suspension
-ACH-000080,PT-c6Ag34,BDCM,BDCM,,Commercial,,CVCL_4613,AMOL,Unknown

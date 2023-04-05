@@ -1,4 +1,3 @@
-from processed_data.load_brain_data import load_brain_data
 import numpy as np
 
 def create_brain_matrices(data_df, new_merge, grouped, mean_df, standard):
@@ -13,7 +12,6 @@ def create_brain_matrices(data_df, new_merge, grouped, mean_df, standard):
         relations[type] = []
         final[type] = []
         for gene in range(len(mean_df.axes[0])):
-        #for gene in range(500):
             if grouped.iloc[i_type, gene] > mean_df.iloc[gene] + standard.iloc[gene]:
                 relations[type].append(1)
             elif grouped.iloc[i_type, gene] < mean_df.iloc[gene] - standard.iloc[gene]:
@@ -21,14 +19,6 @@ def create_brain_matrices(data_df, new_merge, grouped, mean_df, standard):
             else:
                 relations[type].append(0)
 
-        '''for i in range(len(relations[type])):
-            for j in range(i, len(relations[type])):
-                if relations[type][i] == 1 and relations[type][j] == -1:
-                    final[type].append((gene_names[i] + gene_names[j], -1))
-                elif relations[type][i] == -1 and relations[type][j] == 1:
-                    final[type].append((gene_names[i] + gene_names[j], 1))
-                else:
-                    final[type].append((gene_names[i] + gene_names[j], 0))'''
     importance = []
     for i in range(len(relations[type])):
         cur = 0

@@ -3,8 +3,6 @@ import regex as re
 import numpy as np
 
 def load_brain_data(*argv):
-    # data = "../data/GSE181153_ADAB_geneCounts.tsv"
-    # out_filepath = "../data/processed_brain_data.csv"
 
     data_df = pd.read_csv(argv[0], sep='\t')
 
@@ -16,22 +14,12 @@ def load_brain_data(*argv):
     data_transpose = renamed_data.transpose()
     data_transpose.columns = data_transpose.iloc[0]
     data_transpose = data_transpose.drop(['hgnc'])
-    data_transpose = data_transpose.reindex(sorted(data_transpose.columns), axis=1)
 
-    #DONT INCLUDE STARTING HERE
     data_transpose = data_transpose.reset_index()
-    #DONT INCLUDE ENDING HERE
 
-    # data_transpose.to_csv(out_filepath)
-
-    # data_df.columns.values[0] = column_id
-
-    # model_df = pd.read_csv(model_name, usecols=[column_id, merge_column_name])
-    # new_merge = pd.merge(data_df, model_df)
 
     new_merge = data_transpose.replace(0, np.nan) # data normalization --> getting rid of 0s
 
-    # DONT INCLUDE STARTING HERE
     #2,8,12,16
     row_iMGL = new_merge.iloc[2]
     row_HMC3 = new_merge.iloc[8]
@@ -45,8 +33,6 @@ def load_brain_data(*argv):
     new_merge.drop(new_merge.index[14], inplace=True)
     new_merge.set_index("index", inplace=True)
     data_transpose.set_index("index", inplace=True)
-
-    #DONT INCLUDING ENDING HERE
 
     grouped = new_merge.groupby(level=0).mean()
 
