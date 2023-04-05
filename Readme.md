@@ -1,22 +1,22 @@
-#Explanation of Subdirectories
+# Explanation of Subdirectories
 
-###Data
+### Data
 Raw data in the form of .csvs, .tsvs, or .xlsx
 
-###Processed Data
+### Processed Data
 Functions that load the raw data into dataframes ready for use in comparison functions
 
-###Comparisons
+### Comparisons
 Functions that create gene standard deviation matrices as well as comparing various matrices for the purpose of classification
 
-###Figures
+### Figures
 Functions that produce the figures used in the manuscript
 
-###Results
+### Results
 Directory used to store figures
 
 
-#Reproducibility
+# Reproducibility
 
 All figures have a dedicated python script in the figures subdirectory to reproduce that figure. Run the appropriately named file to reproduce that figure.
 
