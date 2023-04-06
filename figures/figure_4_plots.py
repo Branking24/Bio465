@@ -27,7 +27,7 @@ def figure_4_plots():
 
     fig, axes = plt.subplots(nrows=3, ncols=2, figsize=(15, 7), sharex=False, sharey=True)
     axes = axes.ravel()  # array to 1D
-    cols = ['iPSC', 'iMGL', 'HMC3', 'U87a', 'THP1', 'iHPC']
+    cols = ['iPSC', 'iMGL', 'HMC3', 'U87a', 'THP1', 'PBMC']
     for col, ax in zip(cols, axes):
         data = figure_df[col]  # select the data
         max_val = max(figure_vals[col][1])
