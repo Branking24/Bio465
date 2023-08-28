@@ -2,6 +2,8 @@
 
 ### Data
 Raw data in the form of .csvs, .tsvs, or .xlsx
+Primary = Cleaned from the Website
+GSE118... = Figure 1 Cell line PCA 
 
 ### Processed Data
 Functions that load the raw data into dataframes ready for use in comparison functions
